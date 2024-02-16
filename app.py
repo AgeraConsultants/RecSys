@@ -12,8 +12,8 @@ from sklearn.metrics import silhouette_score
 from st_files_connection import FilesConnection
 
 conn = st.connection('gcs', type=FilesConnection)
-df = conn.read("fbrecsys/games.json", input_format="csv", ttl=600)
-df_2 = conn.read("fbrecsys/data_recommendation.json", input_format="csv", ttl=600)
+df = conn.read("gs://fbrecsys/games.json", input_format="csv", ttl=600)
+df_2 = conn.read("gs://fbrecsys/data_recommendation.json", input_format="csv", ttl=600)
 with open(df_2, 'r') as json_file:
     dict_dataset = json.load(json_file)
     df_col = pd.DataFrame(dict_dataset)
