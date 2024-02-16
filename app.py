@@ -9,13 +9,21 @@ import requests
 from io import BytesIO
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+from st_files_connection import FilesConnection
+
+conn = st.connection('gcs', type=FilesConnection)
+df = conn.read("fbrecsys/games.json", input_format="csv", ttl=600)
+df_2 = conn.read("fbrecsys/data_recommendation.json", input_format="csv", ttl=600)
+with open(df_2, 'r') as json_file:
+    dict_dataset = json.load(json_file)
+    df_col = pd.DataFrame(dict_dataset)
 
 #df=pickle.load(open('movie_list.pkl','rb'))
 # Let's open the file and load the data
-df = pd.read_csv('./games.csv')
-with open('./data_recommendation.json', 'r') as json_file:
-    dict_dataset = json.load(json_file)
-    df_col = pd.DataFrame(dict_dataset)
+#df = pd.read_csv('./games.csv')
+#with open('./data_recommendation.json', 'r') as json_file:
+#    dict_dataset = json.load(json_file)
+#    df_col = pd.DataFrame(dict_dataset)
 
 st.title("Game Recommendation System")
 
