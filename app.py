@@ -15,7 +15,7 @@ conn = st.connection('s3', type=FilesConnection)
 df = conn.read("streamlitbucketjm/games.csv", input_format="csv", ttl=600)
 df_2 = conn.read("streamlitbucketjm/data_recommendation.json", input_format="json")
 #with open(df_2, 'r') as json_file:
-#dict_dataset = json.load(df_2)
+dict_dataset = df_2
 df_col = pd.DataFrame(df_2)
 
 #df=pickle.load(open('movie_list.pkl','rb'))
