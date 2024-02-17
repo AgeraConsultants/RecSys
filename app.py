@@ -13,10 +13,10 @@ from st_files_connection import FilesConnection
 
 conn = st.connection('s3', type=FilesConnection)
 df = conn.read("streamlitbucketjm/games.csv", input_format="csv", ttl=600)
-#df_2 = conn.read("/fbrecsys/data_recommendation.json", input_format="json", ttl=600)
-#with open(df_2, 'r') as json_file:
-#    dict_dataset = json.load(json_file)
-#    df_col = pd.DataFrame(dict_dataset)
+df_2 = conn.read("streamlitbucketjm/data_recommendation.json", input_format="json")
+with open(df_2, 'r') as json_file:
+    dict_dataset = json.load(json_file)
+    df_col = pd.DataFrame(dict_dataset)
 
 #df=pickle.load(open('movie_list.pkl','rb'))
 # Let's open the file and load the data
