@@ -11,9 +11,10 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from st_files_connection import FilesConnection
 
-conn = st.connection('s3', type=FilesConnection)
-df = conn.read("streamlitbucketjm/games.csv", input_format="csv", ttl=600)
-df_2 = conn.read("streamlitbucketjm/data_recommendation.json", input_format="json")
+#conn = st.connection('s3', type=FilesConnection)
+conn = st.connection('gcs', type=FilesConnection)
+df = conn.read("fbrecsys/games.csv", input_format="csv", ttl=600)
+df_2 = conn.read("fbrecsys/data_recommendation.json", input_format="json")
 #with open(df_2, 'r') as json_file:
 dict_dataset = df_2
 df_col = pd.DataFrame(df_2)
