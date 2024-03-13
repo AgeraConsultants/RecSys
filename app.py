@@ -145,6 +145,10 @@ def get_cluster(user_input, new_dataset_col):
 
     return first_half_id, second_half_id
 
+with st.sidebar:
+    bggid_url = "https://cf.geekdo-static.com/images/logos/navbar-logo-bgg-b2.svg"
+    st.image(bggid_url, width=250)
+    
 recommendation_type = 'By game'  # Set the default recommendation type
 
 # If the user selects 'By game'
@@ -172,32 +176,33 @@ if recommendation_type == 'By game':
 
     # Now let's show the recommendations with the image url in three columns
 
-    # Create the 4 columns
-    col1, col2, col3 = st.columns(3)
+        for key in dictio:
+            with st.container():
+                st.text(f"Because you choose: {key}")
+                col1, col2, col3, col4, col5, = st.columns([5, 5, 5, 5, 5])   
+                for idx, name in enumerate(dictio[key]):
+                    # Assign each iteration to a different column
+                    if idx == 0:
+                        current_col = col1
+                    elif idx == 1:
+                        current_col = col2
+                    elif idx == 2:
+                        current_col = col3
+                    elif idx == 3:
+                        current_col = col4
+                    else:
+                        current_col = col5
 
-    # Iterate through the dictionary
-    for idx, key in enumerate(dictio):
-        # Assign each iteration to a different column
-        if idx % 3 == 0:
-            current_col = col1
-        elif idx % 3 == 1:
-            current_col = col2
-        else:
-            current_col = col3
-
-        # Display the key and values in the current column
-        with current_col:
-            st.text(f"Because you choose: {key}")
-            for i in range(len(dictio[key])):
-                # Let's create a frame for each game
-                st.caption(dictio[key][i])
-                bottom_image_url = requests.get((df[df.Name == dictio[key][i]].iloc[:, -18].values[0]))
-                if bottom_image_url is not None:
-                    image = Image.open(BytesIO(bottom_image_url.content))
-                    new_image = image.resize((300, 200))
-                    st.image(new_image)
-                    # st.image(df[df.Name == dictio[key][i]].iloc[:, -18].values[0], width=150)
-
+                    # Display the key and values in the current column
+                    with current_col:
+                        text = dictio[key][idx]
+                        bottom_image_url = requests.get((df[df.Name == dictio[key][idx]].iloc[:, -18].values[0]))
+                        if bottom_image_url is not None:
+                            image = Image.open(BytesIO(bottom_image_url.content))
+                            new_image = image.resize((300, 200))
+                            st.image(new_image, caption=text)
+                st.divider()
+                
 else:
     st.warning("Please select a recommendation type")
     st.stop()
