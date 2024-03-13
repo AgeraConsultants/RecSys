@@ -165,16 +165,12 @@ if recommendation_type == 'By game':
         index_ = df[df.Name == selected_games[i]].index[0]
         selected_games_index.append(dict_dataset[index_])
 
-    if selected_games == None:
-        st.warning("Please select a movie")
-        st.stop()
-    else:
+    if selected_games == None or len(selected_games_index) == 0:
+        st.warning("Please select Max 3 games")
+    elif st.button("Get recommendation"):
         st.markdown("The selected games are: " + ", ".join(selected_games))
-        # st.markdown(selected_games_index)
 
         dictio = get_recommendations(selected_games_index, top=5)
-
-    # Now let's show the recommendations with the image url in three columns
 
         for key in dictio:
             with st.container():
