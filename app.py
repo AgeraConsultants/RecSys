@@ -168,7 +168,7 @@ if recommendation_type == 'By game':
     if selected_games == None or len(selected_games_index) == 0:
         st.warning("Please select Max 3 games")
     elif st.button("Get recommendation"):
-        st.markdown("The selected games are: " + ", ".join(selected_games))
+        #st.markdown("The selected games are: " + ", ".join(selected_games))
 
         dictio = get_recommendations(selected_games_index, top=5)
 
