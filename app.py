@@ -147,7 +147,7 @@ def get_cluster(user_input, new_dataset_col):
 
 with st.sidebar:
     bggid_url = "https://cf.geekdo-static.com/images/logos/navbar-logo-bgg-b2.svg"
-    st.image(bggid_url, width=250)
+    st.image(bggid_url, width=250, caption="BoardGameGeek")
     
 recommendation_type = 'By game'  # Set the default recommendation type
 
