@@ -166,7 +166,7 @@ if recommendation_type == 'By game':
         selected_games_index.append(dict_dataset[index_])
 
     if selected_games == None or len(selected_games_index) == 0:
-        st.warning("Please select Max 3 games")
+        st.warning("Please select games")
     elif st.button("Get recommendation"):
         #st.markdown("The selected games are: " + ", ".join(selected_games))
 
