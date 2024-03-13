@@ -120,7 +120,7 @@ def get_cluster(user_input, new_dataset_col):
     possible_clusters = range(2, 10)  # You can adjust the range as needed
 
     for num_clusters in possible_clusters:
-        kmeans = KMeans(n_clusters=num_clusters, random_state=42, n_init=10)
+        kmeans = KMeans(n_clusters=num_clusters, random_state=42)
         cluster_labels = kmeans.fit_predict(feature_values)
         silhouette_avg = silhouette_score(feature_values, cluster_labels)
         silhouette_scores.append(silhouette_avg)
