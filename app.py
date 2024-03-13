@@ -145,58 +145,10 @@ def get_cluster(user_input, new_dataset_col):
 
     return first_half_id, second_half_id
 
+recommendation_type = 'By game'  # Set the default recommendation type
 
-all_categories = ['thematic', 'strategy', 'war', 'family', 'cgs', 'abstract', 'party', 'childrens']
-
-# Let's create a first screen where the user need to select the type of recommendation. If the want to select by category or by game
-
-# Create a radio button to select the type of recommendation
-recommendation_type = st.radio(
-    "What type of recommendation do you want?",
-    ('By category', 'By game'),
-    index=None
-)
-
-# If the user selects by category
-if recommendation_type == 'By category':
-    # Create a multiselect to select the categories
-    selected_categories = st.multiselect(
-        'Type or select three categories from the dropdown',
-        all_categories,
-        default=None
-    )
-    if selected_categories is None or len(selected_categories) == 0:
-        st.warning("Please select a category")
-    else:
-        x1, x2 = get_cluster(selected_categories, df_col)
-
-        # Now that we get the BGGId of the first and second half, let's get the games with the images
-        first_half = df[df.BGGId.isin(x1)]
-        second_half = df[df.BGGId.isin(x2)]
-
-        # Let's divide the screen into rows
-        col1, col2 = st.columns(2)
-
-        # Let's create a frame for each game
-        for i in range(len(first_half)):
-            with col1:
-                st.caption(first_half.iloc[i, 1])
-                bottom_image_url = requests.get((first_half.iloc[i, -18]))
-                if bottom_image_url is not None:
-                    image = Image.open(BytesIO(bottom_image_url.content))
-                    new_image = image.resize((300, 200))
-                    st.image(new_image)
-
-        for i in range(len(second_half)):
-            with col2:
-                st.caption(second_half.iloc[i, 1])
-                bottom_image_url = requests.get((second_half.iloc[i, -18]))
-                if bottom_image_url is not None:
-                    image = Image.open(BytesIO(bottom_image_url.content))
-                    new_image = image.resize((300, 200))
-                    st.image(new_image)
-
-elif recommendation_type == 'By game':
+# If the user selects 'By game'
+if recommendation_type == 'By game':
     selected_games = st.multiselect(
         'Type or select three games from the dropdown',
         list(df.Name.values),
@@ -214,7 +166,7 @@ elif recommendation_type == 'By game':
         st.stop()
     else:
         st.markdown("The selected games are: " + ", ".join(selected_games))
-        #st.markdown(selected_games_index)
+        # st.markdown(selected_games_index)
 
     dictio = get_recommendations(selected_games_index, top=5)
 
@@ -244,8 +196,8 @@ elif recommendation_type == 'By game':
                     image = Image.open(BytesIO(bottom_image_url.content))
                     new_image = image.resize((300, 200))
                     st.image(new_image)
-                    #st.image(df[df.Name == dictio[key][i]].iloc[:, -18].values[0], width=150)
+                    # st.image(df[df.Name == dictio[key][i]].iloc[:, -18].values[0], width=150)
 
 else:
     st.warning("Please select a recommendation type")
-    st.stop()          
+    st.stop()
