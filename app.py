@@ -174,7 +174,7 @@ if recommendation_type == 'By game':
 
         for key in dictio:
             with st.container():
-                st.text(f"Because you choose: {key}")
+                st.text(f"Because you've chosen: {key}")
                 col1, col2, col3, col4, col5, = st.columns([5, 5, 5, 5, 5])   
                 for idx, name in enumerate(dictio[key]):
                     # Assign each iteration to a different column
