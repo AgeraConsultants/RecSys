@@ -172,7 +172,7 @@ if recommendation_type == 'By game':
         st.markdown("The selected games are: " + ", ".join(selected_games))
         # st.markdown(selected_games_index)
 
-    dictio = get_recommendations(selected_games_index, top=5)
+        dictio = get_recommendations(selected_games_index, top=5)
 
     # Now let's show the recommendations with the image url in three columns
 
@@ -192,7 +192,7 @@ if recommendation_type == 'By game':
                         current_col = col4
                     else:
                         current_col = col5
-
+    
                     # Display the key and values in the current column
                     with current_col:
                         text = dictio[key][idx]
