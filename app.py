@@ -132,7 +132,7 @@ def get_cluster(user_input, new_dataset_col):
     num_clusters = optimal_num_clusters
 
     # K-Means clustering
-    kmeans = KMeans(n_clusters=num_clusters, random_state=42, n_init=10)
+    kmeans = KMeans(n_clusters=num_clusters, random_state=42)
     to_filter['cluster'] = kmeans.fit_predict(feature_values)
 
     # Now that I get the dataset with the clusters, let's sort the dataset by the BayesAvgRating
