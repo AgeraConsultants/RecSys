@@ -174,22 +174,18 @@ if recommendation_type == 'By game':
 
         for key in dictio:
             with st.container():
-                st.text(f"Because you've chosen: {key}")
-                col1, col2, col3, col4, col5, = st.columns([5, 5, 5, 5, 5])   
+                st.text(f"Because you chose: {key}")
+                
+                # Create two rows of 5 columns
+                row1_col1, row1_col2, row1_col3, row1_col4, row1_col5 = st.columns([5, 5, 5, 5, 5])
+                row2_col1, row2_col2, row2_col3, row2_col4, row2_col5 = st.columns([5, 5, 5, 5, 5])
+
                 for idx, name in enumerate(dictio[key]):
-                    # Assign each iteration to a different column
-                    if idx == 0:
-                        current_col = col1
-                    elif idx == 1:
-                        current_col = col2
-                    elif idx == 2:
-                        current_col = col3
-                    elif idx == 3:
-                        current_col = col4
+                    if idx < 5:
+                        current_col = row1_col1 if idx == 0 else row1_col2 if idx == 1 else row1_col3 if idx == 2 else row1_col4 if idx == 3 else row1_col5
                     else:
-                        current_col = col5
-    
-                    # Display the key and values in the current column
+                        current_col = row2_col1 if idx == 5 else row2_col2 if idx == 6 else row2_col3 if idx == 7 else row2_col4 if idx == 8 else row2_col5
+                    
                     with current_col:
                         text = dictio[key][idx]
                         bottom_image_url = requests.get((df[df.Name == dictio[key][idx]].iloc[:, -18].values[0]))
