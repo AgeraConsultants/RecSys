@@ -12,8 +12,8 @@ from sklearn.metrics import silhouette_score
 from st_files_connection import FilesConnection
 
 conn = st.connection('s3', type=FilesConnection)
-df = conn.read("streamlitbucketjm/games.csv", input_format="csv", ttl=600)
-df_2 = conn.read("streamlitbucketjm/data_recommendation.json", input_format="json")
+df = conn.read("streamlitbucketjm/filtered_games.csv", input_format="csv", ttl=600)
+df_2 = conn.read("streamlitbucketjm/filtered_data.json", input_format="json")
 #with open(df_2, 'r') as json_file:
 dict_dataset = df_2
 df_col = pd.DataFrame(df_2)
