@@ -170,7 +170,7 @@ if recommendation_type == 'By game':
     elif st.button("Get recommendation"):
         #st.markdown("The selected games are: " + ", ".join(selected_games))
 
-        dictio = get_recommendations(selected_games_index, top=5)
+        dictio = get_recommendations(selected_games_index, top=10)
 
         for key in dictio:
             with st.container():
