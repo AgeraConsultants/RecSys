@@ -28,6 +28,6 @@ This project utilizes Streamlit for creating interactive web applications.
 Data used for recommendation is sourced from external datasets (not included in this repository).
 
 ### Contributors
-Jesus Lopez
-Kiran Rathod
-Hanish Patturi
+**Jesus Lopez**
+**Kiran Rathod** https://github.com/kiranraathod
+**Hanish Patturi** https://github.com/hantablack9
