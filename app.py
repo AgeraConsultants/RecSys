@@ -146,7 +146,7 @@ def get_cluster(user_input, new_dataset_col):
     return first_half_id, second_half_id
 
 with st.sidebar:
-    bggid_url = "https://github.com/jesusmlb/RecSys/blob/main/logo-no-background.png"
+    bggid_url = "./logo-no-background.png"
     st.image(bggid_url, width=250, caption="BoardGameGeek")
     
 recommendation_type = 'By game'  # Set the default recommendation type
