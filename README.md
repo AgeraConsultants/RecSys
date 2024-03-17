@@ -29,5 +29,7 @@ Data used for recommendation is sourced from external datasets (not included in 
 
 ### Contributors
 **Jesus Lopez**
+
 **Kiran Rathod** https://github.com/kiranraathod
+
 **Hanish Patturi** https://github.com/hantablack9
