@@ -9,13 +9,21 @@ import requests
 from io import BytesIO
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+from st_files_connection import FilesConnection
+
+conn = st.connection('s3', type=FilesConnection)
+df = conn.read("streamlitbucketjm/filtered_games.csv", input_format="csv", ttl=600)
+df_2 = conn.read("streamlitbucketjm/filtered_data.json", input_format="json")
+#with open(df_2, 'r') as json_file:
+dict_dataset = df_2
+df_col = pd.DataFrame(df_2)
 
 #df=pickle.load(open('movie_list.pkl','rb'))
 # Let's open the file and load the data
-df = pd.read_csv('./games.csv')
-with open('./data_recommendation.json', 'r') as json_file:
-    dict_dataset = json.load(json_file)
-    df_col = pd.DataFrame(dict_dataset)
+#df = pd.read_csv('./games.csv')
+#with open('./data_recommendation.json', 'r') as json_file:
+#    dict_dataset = json.load(json_file)
+#    df_col = pd.DataFrame(dict_dataset)
 
 st.title("Game Recommendation System")
 
@@ -137,58 +145,14 @@ def get_cluster(user_input, new_dataset_col):
 
     return first_half_id, second_half_id
 
+with st.sidebar:
+    bggid_url = "./logo-no-background.png"
+    st.image(bggid_url, width=250)
+    
+recommendation_type = 'By game'  # Set the default recommendation type
 
-all_categories = ['thematic', 'strategy', 'war', 'family', 'cgs', 'abstract', 'party', 'childrens']
-
-# Let's create a first screen where the user need to select the type of recommendation. If the want to select by category or by game
-
-# Create a radio button to select the type of recommendation
-recommendation_type = st.radio(
-    "What type of recommendation do you want?",
-    ('By category', 'By game'),
-    index=None
-)
-
-# If the user selects by category
-if recommendation_type == 'By category':
-    # Create a multiselect to select the categories
-    selected_categories = st.multiselect(
-        'Type or select three categories from the dropdown',
-        all_categories,
-        default=None
-    )
-    if selected_categories is None or len(selected_categories) == 0:
-        st.warning("Please select a category")
-    else:
-        x1, x2 = get_cluster(selected_categories, df_col)
-
-        # Now that we get the BGGId of the first and second half, let's get the games with the images
-        first_half = df[df.BGGId.isin(x1)]
-        second_half = df[df.BGGId.isin(x2)]
-
-        # Let's divide the screen into rows
-        col1, col2 = st.columns(2)
-
-        # Let's create a frame for each game
-        for i in range(len(first_half)):
-            with col1:
-                st.caption(first_half.iloc[i, 1])
-                bottom_image_url = requests.get((first_half.iloc[i, -18]))
-                if bottom_image_url is not None:
-                    image = Image.open(BytesIO(bottom_image_url.content))
-                    new_image = image.resize((300, 200))
-                    st.image(new_image)
-
-        for i in range(len(second_half)):
-            with col2:
-                st.caption(second_half.iloc[i, 1])
-                bottom_image_url = requests.get((second_half.iloc[i, -18]))
-                if bottom_image_url is not None:
-                    image = Image.open(BytesIO(bottom_image_url.content))
-                    new_image = image.resize((300, 200))
-                    st.image(new_image)
-
-elif recommendation_type == 'By game':
+# If the user selects 'By game'
+if recommendation_type == 'By game':
     selected_games = st.multiselect(
         'Type or select three games from the dropdown',
         list(df.Name.values),
@@ -201,43 +165,36 @@ elif recommendation_type == 'By game':
         index_ = df[df.Name == selected_games[i]].index[0]
         selected_games_index.append(dict_dataset[index_])
 
-    if selected_games == None:
-        st.warning("Please select a movie")
-        st.stop()
-    else:
-        st.markdown("The selected games are: " + ", ".join(selected_games))
-        #st.markdown(selected_games_index)
+    if selected_games == None or len(selected_games_index) == 0:
+        st.warning("Please select games")
+    elif st.button("Get recommendation"):
+        #st.markdown("The selected games are: " + ", ".join(selected_games))
 
-    dictio = get_recommendations(selected_games_index, top=5)
+        dictio = get_recommendations(selected_games_index, top=10)
 
-    # Now let's show the recommendations with the image url in three columns
+        for key in dictio:
+            with st.container():
+                st.text(f"Because you chose: {key}")
+                
+                # Create two rows of 5 columns
+                row1_col1, row1_col2, row1_col3, row1_col4, row1_col5 = st.columns([5, 5, 5, 5, 5])
+                row2_col1, row2_col2, row2_col3, row2_col4, row2_col5 = st.columns([5, 5, 5, 5, 5])
 
-    # Create the 4 columns
-    col1, col2, col3 = st.columns(3)
-
-    # Iterate through the dictionary
-    for idx, key in enumerate(dictio):
-        # Assign each iteration to a different column
-        if idx % 3 == 0:
-            current_col = col1
-        elif idx % 3 == 1:
-            current_col = col2
-        else:
-            current_col = col3
-
-        # Display the key and values in the current column
-        with current_col:
-            st.text(f"Because you choose: {key}")
-            for i in range(len(dictio[key])):
-                # Let's create a frame for each game
-                st.caption(dictio[key][i])
-                bottom_image_url = requests.get((df[df.Name == dictio[key][i]].iloc[:, -18].values[0]))
-                if bottom_image_url is not None:
-                    image = Image.open(BytesIO(bottom_image_url.content))
-                    new_image = image.resize((300, 200))
-                    st.image(new_image)
-                    #st.image(df[df.Name == dictio[key][i]].iloc[:, -18].values[0], width=150)
-
+                for idx, name in enumerate(dictio[key]):
+                    if idx < 5:
+                        current_col = row1_col1 if idx == 0 else row1_col2 if idx == 1 else row1_col3 if idx == 2 else row1_col4 if idx == 3 else row1_col5
+                    else:
+                        current_col = row2_col1 if idx == 5 else row2_col2 if idx == 6 else row2_col3 if idx == 7 else row2_col4 if idx == 8 else row2_col5
+                    
+                    with current_col:
+                        text = dictio[key][idx]
+                        bottom_image_url = requests.get((df[df.Name == dictio[key][idx]].iloc[:, -18].values[0]))
+                        if bottom_image_url is not None:
+                            image = Image.open(BytesIO(bottom_image_url.content))
+                            new_image = image.resize((300, 200))
+                            st.image(new_image, caption=text)
+                st.divider()
+                
 else:
     st.warning("Please select a recommendation type")
-    st.stop()          
+    st.stop()
