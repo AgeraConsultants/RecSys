@@ -2,10 +2,10 @@
 
 This repository contains a Python script for a Game Recommendation System built using Streamlit. The recommendation system utilizes K-Means clustering and cosine similarity to suggest games based on various features such as categories, themes, popularity, and more.
 
-## Description
+### Description
 The script app.py implements a Game Recommendation System that allows users to input their preferred games and receive recommendations based on similar games. The recommendation is generated using K-Means clustering and cosine similarity metrics.
 
-## Features
+### Features
 **Game Selection:** Users can select up to three games from a dropdown menu.
 
 **Recommendation Generation:** Upon selecting games, users can generate recommendations based on similarities in categories, themes, popularity, and more.
@@ -14,7 +14,7 @@ The script app.py implements a Game Recommendation System that allows users to i
 
 **Image Display:** Game recommendations are accompanied by images fetched from online sources.
 
-## File Structure
+### File Structure
 **app.py:** Main Python script containing the recommendation system implementation.
 
 **st_files_connection.py:** File for Streamlit file connection.
@@ -27,7 +27,7 @@ The script app.py implements a Game Recommendation System that allows users to i
 This project utilizes Streamlit for creating interactive web applications.
 Data used for recommendation is sourced from external datasets (not included in this repository).
 
-## Contributors
+### Contributors
 Jesus Lopez
 Kiran Rathod
 Hanish Patturi
