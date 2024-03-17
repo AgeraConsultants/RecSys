@@ -7,14 +7,20 @@ The script app.py implements a Game Recommendation System that allows users to i
 
 ## Features
 **Game Selection:** Users can select up to three games from a dropdown menu.
-Recommendation Generation: Upon selecting games, users can generate recommendations based on similarities in categories, themes, popularity, and more.
+
+**Recommendation Generation:** Upon selecting games, users can generate recommendations based on similarities in categories, themes, popularity, and more.
+
 **Interactive UI:** The user interface provides an intuitive experience, allowing users to interact with the system effortlessly.
+
 **Image Display:** Game recommendations are accompanied by images fetched from online sources.
 
 ## File Structure
-app.py: Main Python script containing the recommendation system implementation.
+**app.py:** Main Python script containing the recommendation system implementation.
+
 **st_files_connection.py:** File for Streamlit file connection.
+
 **requirements.txt:** List of Python dependencies.
+
 **README.md:** Documentation file providing information about the project.
 
 ## Acknowledgments
